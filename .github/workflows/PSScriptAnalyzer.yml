@@ -1,7 +1,7 @@
 name: PSScriptAnalyzer
 
 on:
-  [push, pull_request]
+  [push]
 #     branches: [ main ]
 #   schedule:
 #     - cron: '32 13 * * 4'
