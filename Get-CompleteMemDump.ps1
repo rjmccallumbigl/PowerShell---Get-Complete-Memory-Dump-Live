@@ -9,13 +9,13 @@
 .OUTPUTS
 	None directly, but creates a .dmp file in "C:\Program Files\Common Files" by default.
 .EXAMPLE
-	iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/rjmccallumbigl/PowerShell---Get-Complete-Memory-Dump-Live/main/Get-CompleteMemDump.ps1'))
+	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12;iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/rjmccallumbigl/PowerShell---Get-Complete-Memory-Dump-Live/main/Get-CompleteMemDump.ps1'))
 .LINK
 	https://github.com/rjmccallumbigl/PowerShell---Get-Complete-Memory-Dump-Live
 .NOTES
     Author: Ryan McCallum
     Last Modified: 05-23-2022	
-    v0.1
+    v0.1.1
 	
 ####################################################################################################>
 
