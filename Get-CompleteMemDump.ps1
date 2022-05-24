@@ -15,7 +15,7 @@
 .NOTES
     Author: Ryan McCallum
     Last Modified: 05-23-2022	
-    v0.1.1
+    v0.1.2
 	
 ####################################################################################################>
 
@@ -73,5 +73,5 @@ if (Test-Path -Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd
 	}
 }
 else {
-	throw "Could not automatically download LiveKD, please download manually and retry script: https://live.sysinternals.com/livekd.exe"		
+	throw "Could not automatically download LiveKD, please download manually and retry script: https://docs.microsoft.com/en-us/sysinternals/downloads/livekd"
 }	
