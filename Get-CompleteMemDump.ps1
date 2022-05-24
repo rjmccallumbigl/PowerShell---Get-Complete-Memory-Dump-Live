@@ -1,4 +1,4 @@
-<###################################################################################################
+﻿<###################################################################################################
 
 .SYNOPSIS
     Grab a complete memory dump without rebooting.
@@ -14,9 +14,9 @@
 	https://github.com/rjmccallumbigl/PowerShell---Get-Complete-Memory-Dump-Live
 .NOTES
     Author: Ryan McCallum
-    Last Modified: 05-23-2022	
-    v0.1.2
-	
+    Last Modified: 05-23-2022
+    v0.1.3
+
 ####################################################################################################>
 
 # Declare variables
@@ -32,15 +32,15 @@ if (Test-Path -Path "$($baseFolder)\sdksetup.exe" -PathType Leaf -ErrorAction St
 	& "$($baseFolder)\sdksetup.exe" /features "OptionId.WindowsDesktopDebuggers" /l "$($baseFolder)\windowsSDK.log" /quiet /norestart
 }
 else {
-	throw "Could not automatically download SDK, please install manually and retry script: https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/"		
+	throw "Could not automatically download SDK, please install manually and retry script: https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/"
 }
 
 # Download Sysinternals LiveKD for live memory dump
 (New-Object System.Net.WebClient).DownloadFile("https://live.sysinternals.com/livekd.exe", "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe")
 if (Test-Path -Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe" -PathType Leaf -ErrorAction Stop) {
-	
+
 	# See how much space we need for a complete dump per https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/memory-dump-file-options#complete-memory-dump
-	Write-Output "This server has about $($memory) MB of memory so you will need at least this + 1MB to save the full dump on the drive at $($dumpLocation)." 
+	Write-Output "This server has about $($memory) MB of memory so you will need at least this + 1MB to save the full dump on the drive at $($dumpLocation)."
 	Write-Output "You currently have $($space) GB free on the C: drive."
 
 	if (($memory * 1MB + 1MB) -lt ($space * 1GB)) {
@@ -58,20 +58,20 @@ if (Test-Path -Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd
 
 		Write-Warning "Press Y on the next prompt to reference the Microsoft symbol server."
 
-		# Check if we're admin before running, if not run as admin 
-		if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { 
+		# Check if we're admin before running, if not run as admin
+		if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
 			Write-Output "Launching as admin"
 			Start-Process powershell -Verb runAs -ArgumentList "-noexit & 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -o '$dumpLocation'"
 			Break
 		}
 		else {
 			& 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -o "$($dumpLocation)"
-		}				
+		}
 	}
  else {
-		throw "You do not have enough space to save the dump. You can attach a new disk with available space to the VM and then run the following command via admin PowerShell: ""& 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -ml -o '$($dumpLocation)'"""    			
+		throw "You do not have enough space to save the dump. You can attach a new disk with available space to the VM and then run the following command via admin PowerShell: ""& 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -ml -o '$($dumpLocation)'"""
 	}
 }
 else {
 	throw "Could not automatically download LiveKD, please download manually and retry script: https://docs.microsoft.com/en-us/sysinternals/downloads/livekd"
-}	
+}
