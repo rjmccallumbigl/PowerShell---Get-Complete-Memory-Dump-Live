@@ -40,7 +40,7 @@ else {
 if (Test-Path -Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe" -PathType Leaf -ErrorAction Stop) {
 
 	# See how much space we need for a complete dump per https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/memory-dump-file-options#complete-memory-dump
-	Write-Output "This server has about $($memory) MB of memory so you will need at least this + 1MB to save the full dump on the drive at $($dumpLocation)."
+	Write-Output "This server has about $($memory) MB of memory so you will need at least this + 256MB + 1MB to save the full dump on the drive at $($dumpLocation)."
 	Write-Output "You currently have $($space) GB free on the C: drive."
 
 	if (($memory * 1MB + 257MB) -lt ($space * 1GB)) {
