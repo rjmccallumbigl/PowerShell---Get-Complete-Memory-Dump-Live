@@ -15,7 +15,7 @@
 .NOTES
     Author: Ryan McCallum
     Last Modified: 05-27-2022
-    v0.1.4
+    v0.1.5
 
 ####################################################################################################>
 
@@ -24,6 +24,17 @@ $baseFolder = "C:\Program Files\Common Files"
 $memory = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum / 1MB
 $space = (Get-CimInstance -ClassName Win32_LogicalDisk | Where-Object { $_.DeviceID -eq "C:" }).FreeSpace / 1GB
 $dumpLocation = "$($baseFolder)\fullMemory.dmp"
+
+# https://stackoverflow.com/a/49307332/7954017
+Write-Output "Disabling IE Enhanced Security Configuration..."
+$AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"
+$UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"
+Set-ItemProperty -Path $AdminKey -Name "IsInstalled" -Value 0 -Force
+Set-ItemProperty -Path $UserKey -Name "IsInstalled" -Value 0 -Force
+Rundll32 iesetup.dll, IEHardenLMSettings
+Rundll32 iesetup.dll, IEHardenUser
+Rundll32 iesetup.dll, IEHardenAdmin
+Write-Output "IE Enhanced Security Configuration has been disabled."
 
 # Download Windows SDK and install debuggers
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::TLS12
