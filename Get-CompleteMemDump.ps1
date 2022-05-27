@@ -1,4 +1,4 @@
-﻿<###################################################################################################
+<###################################################################################################
 
 .SYNOPSIS
     Grab a complete memory dump without rebooting.
@@ -61,15 +61,25 @@ if (Test-Path -Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd
 		# Check if we're admin before running, if not run as admin
 		if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
 			Write-Output "Launching as admin"
-			Start-Process powershell -Verb runAs -ArgumentList "-noexit & 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -o '$dumpLocation'"
+			Start-Process powershell -Verb runAs -ArgumentList "-noexit & 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -p -o '$dumpLocation'"
 			Break
 		}
 		else {
-			& 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -o "$($dumpLocation)"
+			& 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -p -o "$($dumpLocation)"
+
+            # When complete, run dumpchk to verify integrity of dump file
+            & "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\dumpchk.exe" "$($dumpLocation)"
+
+            if (!$?){
+                Write-Warning "The dumpchk was not successful, dump may be invalid!"
+            }
+
+            Write-Output "Process complete, dump saved to $($dumpLocation)."
+
 		}
 	}
  else {
-		throw "You do not have enough space to save the dump. You can attach a new disk with available space to the VM and then run the following command via admin PowerShell: ""& 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -ml -o '$($dumpLocation)'"" but change the location to the new drive"
+		throw "You do not have enough space to save the dump. You can attach a new disk with available space to the VM and then run the following command via admin PowerShell: ""& 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -p -o '$($dumpLocation)'"" but change the location to the new drive"
 	}
 }
 else {
