@@ -69,7 +69,7 @@ if (Test-Path -Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd
 		}
 	}
  else {
-		throw "You do not have enough space to save the dump. You can attach a new disk with available space to the VM and then run the following command via admin PowerShell: ""& 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -ml -o '$($dumpLocation)'"""
+		throw "You do not have enough space to save the dump. You can attach a new disk with available space to the VM and then run the following command via admin PowerShell: ""& 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe' -accepteula -f -ml -o '$($dumpLocation)'"" but change the location to the new drive"
 	}
 }
 else {
