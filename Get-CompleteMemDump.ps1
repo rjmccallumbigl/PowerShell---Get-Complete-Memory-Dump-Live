@@ -15,7 +15,7 @@
 .NOTES
     Author: Ryan McCallum
     Last Modified: 05-27-2022
-    v0.1.5
+    v0.2.0
 
 ####################################################################################################>
 
@@ -63,7 +63,7 @@ if (Test-Path -Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd
 			Write-Warning "This will attempt to generate a full memory dump without reboot and save it at $($dumpLocation)." -WarningAction Inquire
 		}
 		catch {
-			& "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe"
+			#& "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd.exe"
 			Write-Warning "Do you accept the EULA (https://docs.microsoft.com/en-us/sysinternals/license-terms)? If you do, this script will attempt to generate a full memory dump without reboot and save it at $($dumpLocation)." -WarningAction Inquire
 		}
 
