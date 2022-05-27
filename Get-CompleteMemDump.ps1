@@ -14,8 +14,8 @@
 	https://github.com/rjmccallumbigl/PowerShell---Get-Complete-Memory-Dump-Live
 .NOTES
     Author: Ryan McCallum
-    Last Modified: 05-23-2022
-    v0.1.3
+    Last Modified: 05-27-2022
+    v0.1.4
 
 ####################################################################################################>
 
