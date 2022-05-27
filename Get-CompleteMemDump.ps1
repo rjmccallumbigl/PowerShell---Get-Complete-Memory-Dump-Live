@@ -43,7 +43,7 @@ if (Test-Path -Path "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\livekd
 	Write-Output "This server has about $($memory) MB of memory so you will need at least this + 1MB to save the full dump on the drive at $($dumpLocation)."
 	Write-Output "You currently have $($space) GB free on the C: drive."
 
-	if (($memory * 1MB + 1MB) -lt ($space * 1GB)) {
+	if (($memory * 1MB + 257MB) -lt ($space * 1GB)) {
 		Write-Output "You have enough space to save the dump, running LiveKD"
 
 		# Seeing if we need to accept EULA before running
